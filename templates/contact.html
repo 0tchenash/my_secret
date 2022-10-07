@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title%} {{ title }} {% endblock %}
+{% block content%}
+
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-lg-5 col-md-6 m-auto card p-4">
+            <form action="{{ request.path }}" method="POST" class="card-body">
+                {{ form.csrf_token }}
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                {% if request.path == '/contact/'%}
+                <div class="text-center">
+                    <h2>{{ _(TestTask) }}</h2>
+                    <h5 }}class="text-primary">{{ text }}</h5>
+                </div>
+                <div class="form-group mb-3">
+                    {{ form.username(class_="form-control",placeholder="Username")}}
+                </div>
+                {% for error in form.username.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor%}
+                <div class="form-group mb-3">
+                    {{ form.text(class_="form-control",placeholder="Text")}}
+                </div>
+                {% for error in form.text.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ error }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div> 
+                {% endfor%}
+                {% endif %}
+
+
+                <div class="text-center">
+
+                    <div class="d-grid gap-2">
+
+                        <h5>{{ nums }} </h5>
+                        {{ _('Enter captcha') }}
+                        <div class="form-group mb-3">
+                            {{ form.captcha(class_="form-control",placeholder="Captcha")}}
+                        </div>
+                        <button type="submit" class="btn btn-block btn-primary mb-3"> {{ btn_action }} </button>
+                    </div>
+
+                    <p>
+                        {% if request.path != 'register' %}
+                        <p>
+                            {{ _('New here?') }}
+                            <a href="/user/register/">{{ _('Create account') }}</a>
+                        </p>
+                        
+                        {{ _('Already have an account?') }}
+                        <a href="/user/login/">{{ _('Login') }}</a>
+                        {% endif %}
+                    </p>
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

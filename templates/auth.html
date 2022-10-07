@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title%} {{ title }} {% endblock %}
+{% block content%}
+<div class="container">
+    <div class="row mt-4">
+        <div class="col-lg-5 col-md-6 m-auto card p-4">
+            <form action="{{ request.path }}" method="POST" class="card-body">
+                {{ form.csrf_token }}
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                <div class="text-center">
+                    <h2>{{_('TestTask')}}</h2>
+                    <h5 class="text-primary">{{ text }}</h5>
+                </div>
+                {% if request.path == '/user/login/' %}
+                <div class="form-group mb-3">
+                    {{ form.username(class_="form-control",placeholder="{{_(Username)}}")}}
+                </div>
+                {% for error in form.username.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ _(error) }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor%}
+                <div class="form-group mb-3">
+                    {{ form.password(class_="form-control",placeholder="{{_(Password)}}")}}
+                </div>
+                {% for error in form.password.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ _(error) }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div> 
+                {% endfor%}
+                {% endif %}
+
+                {% if request.path == '/user/register/' %}
+                <div class="form-group mb-3">
+                    {{ form.username(class_="form-control",placeholder="{{_(Username)}}")}}
+                </div>
+                {% for error in form.username.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ _(error) }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor%}
+                <div class="form-group mb-3">
+                    {{ form.password(class_="form-control",placeholder="{{_(Password)}}")}}
+                </div>
+                {% for error in form.password.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ _(error) }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div> 
+                {% endfor%}
+                <div class="form-group mb-3">
+                    {{ form.cpwd(class_="form-control",placeholder="{{_(Confirm Password)}}")}}
+                </div>
+                {% for error in form.cpwd.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    {{ _(error) }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div> 
+                {% endfor%}
+                {% endif %}
+                
+                <div class="text-center">
+
+                    <div class="d-grid gap-2">
+                        <button  type="submit" class="btn btn-block btn-primary mb-3"> {{ btn_action }} </button>
+                    </div>
+
+                    <p>
+                        {% if request.path != '/user/register/' %}
+                        <p>
+                            {{ _( 'New here?' ) }}
+                            <a href="/user/register/">{{_('Create account')}}</a>
+                        </p>
+                        {{_('Contact us?')}}
+                        <a href="/contact/">{{_('Add a review')}}</a>                        
+                        {% else %}
+                        <p>
+                            {{_('Already have an account?')}}
+                            <a href="/user/login/">{{_('Login')}}</a>
+                        </p>
+                        {{_('Contact us?')}}
+                        <a href="/contact/">{{_('Add a review')}}</a> 
+                        {% endif %}
+                    </p>
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
